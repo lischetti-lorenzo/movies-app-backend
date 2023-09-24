@@ -9,7 +9,7 @@ export class ApplicationConfigService {
     return this.configService.get('NODE_PORT') as number;
   }
 
-  get footballDataApiUrl (): string {
+  get tmdbApiUrl (): string {
     return this.configService.get('TMDB_API_BASE_URL') as string;
   }
 
@@ -17,7 +17,7 @@ export class ApplicationConfigService {
     return 'https://studio.apollographql.com';
   }
 
-  get footballDataToken (): string {
+  get tmdbToken (): string {
     return this.configService.get('TMDB_DATA_TOKEN') as string;
   }
 }

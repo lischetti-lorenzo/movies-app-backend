@@ -1,0 +1,23 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Movie {
+  adult: Boolean!
+  originalTitle: String!
+  overview: String!
+  popularity: Float!
+  posterPath: String!
+  releaseDate: String!
+  title: String!
+  tmdbMovieId: Int!
+  voteAverage: Float!
+}
+
+type Mutation {
+  likeMovie: Boolean!
+}
+
+type Query {
+  popularMovies(page: Int = 1): [Movie!]!
+}

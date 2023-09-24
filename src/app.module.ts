@@ -6,13 +6,14 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { MovieModule } from './modules/movie/movie.module';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       path: '/graphql',
-      autoSchemaFile: join(process.cwd(), '../modules/schema.gql'),
+      autoSchemaFile: join(process.cwd(), './src/modules/schema.gql'),
       sortSchema: true,
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
@@ -20,7 +21,8 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
         'graphql-ws': true
       }
     }),
-    AppConfigModule
+    AppConfigModule,
+    MovieModule
   ],
   controllers: [
     AppController
