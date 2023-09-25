@@ -7,6 +7,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { MovieModule } from './modules/movie/movie.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { MovieModule } from './modules/movie/movie.module';
       }
     }),
     AppConfigModule,
-    MovieModule
+    MovieModule,
+    AuthModule
   ],
   controllers: [
     AppController

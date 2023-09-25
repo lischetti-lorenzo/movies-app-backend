@@ -20,4 +20,12 @@ export class ApplicationConfigService {
   get tmdbToken (): string {
     return this.configService.get('TMDB_DATA_TOKEN') as string;
   }
+
+  get jwtSecret (): string {
+    return this.configService.get('NODE_AUTH_JWT_SECRET') as string;
+  }
+
+  get jwtExpiration (): string {
+    return this.configService.get('NODE_AUTH_JWT_EXPIRATION') as string;
+  }
 }

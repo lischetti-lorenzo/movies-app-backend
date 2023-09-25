@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type LoginResponse {
+  access_token: String!
+  user: User!
+}
+
+input LoginUserInput {
+  password: String!
+  username: String!
+}
+
 type Movie {
   adult: Boolean!
   originalTitle: String!
@@ -16,8 +26,15 @@ type Movie {
 
 type Mutation {
   likeMovie: Boolean!
+  login(loginUserInput: LoginUserInput!): LoginResponse!
+  signUp(createUserInput: LoginUserInput!): User!
 }
 
 type Query {
   popularMovies(page: Int = 1): [Movie!]!
+}
+
+type User {
+  id: Int!
+  username: String!
 }

@@ -33,6 +33,14 @@ export class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
     TMDB_DATA_TOKEN: string;
+
+  @IsString()
+  @IsNotEmpty()
+    NODE_AUTH_JWT_SECRET: string;
+
+  @IsString()
+  @IsNotEmpty()
+    NODE_AUTH_JWT_EXPIRATION: string;
 }
 
 export function validate (

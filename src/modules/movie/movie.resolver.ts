@@ -1,6 +1,8 @@
 import { Query, Args, Int, Resolver, Mutation } from '@nestjs/graphql';
 import { Movie } from '../../models/movie.model';
 import { MovieService } from './movie.service';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Resolver(() => Movie)
 export class MovieResolver {
@@ -9,6 +11,7 @@ export class MovieResolver {
   ) {}
 
   @Query(() => [Movie], { name: 'popularMovies' })
+  @UseGuards(JwtAuthGuard)
   async getPopularMovies (
     @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number | undefined | null
   ): Promise<Movie[]> {
