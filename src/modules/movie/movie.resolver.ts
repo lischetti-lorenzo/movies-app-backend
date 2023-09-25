@@ -5,13 +5,13 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Resolver(() => Movie)
+@UseGuards(JwtAuthGuard)
 export class MovieResolver {
   constructor (
     private readonly movieService: MovieService
   ) {}
 
   @Query(() => [Movie], { name: 'popularMovies' })
-  @UseGuards(JwtAuthGuard)
   async getPopularMovies (
     @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number | undefined | null
   ): Promise<Movie[]> {
