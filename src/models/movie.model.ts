@@ -1,31 +1,17 @@
-import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { FilmAbstract } from './film-abstract.model';
 
 @ObjectType()
-export class Movie {
+export class Movie extends FilmAbstract {
   @Field(() => Boolean)
     adult: boolean;
 
-  @Field(() => Int)
-    tmdbMovieId: number;
-
   @Field(() => String)
     originalTitle: string;
-
-  @Field(() => String)
-    overview: string;
-
-  @Field(() => Float)
-    popularity: number;
-
-  @Field(() => String)
-    posterPath: string;
 
   @Field(() => String)
     releaseDate: string;
 
   @Field(() => String)
     title: string;
-
-  @Field(() => Float)
-    voteAverage: number;
 }

@@ -17,21 +17,33 @@ type Movie {
   originalTitle: String!
   overview: String!
   popularity: Float!
-  posterPath: String!
+  posterPath: String
   releaseDate: String!
   title: String!
-  tmdbMovieId: Int!
+  tmdbId: Int!
   voteAverage: Float!
 }
 
 type Mutation {
   likeMovie: Boolean!
+  likeTvShow: Boolean!
   login(loginUserInput: LoginUserInput!): LoginResponse!
   signUp(createUserInput: LoginUserInput!): User!
 }
 
 type Query {
   popularMovies(page: Int = 1): [Movie!]!
+  popularTvShows(page: Int = 1): [TvShow!]!
+}
+
+type TvShow {
+  firstAirDate: String!
+  name: String!
+  overview: String!
+  popularity: Float!
+  posterPath: String
+  tmdbId: Int!
+  voteAverage: Float!
 }
 
 type User {

@@ -8,6 +8,7 @@ import { join } from 'path';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { MovieModule } from './modules/movie/movie.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { TvShowModule } from './modules/tv-show/tv-show.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     AppConfigModule,
     MovieModule,
-    AuthModule
+    AuthModule,
+    TvShowModule
   ],
   controllers: [
     AppController

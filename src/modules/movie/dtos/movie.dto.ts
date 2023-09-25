@@ -9,7 +9,7 @@ export class MovieDto {
   @IsNotEmpty()
   @IsNumber()
   @Expose({ name: 'id' })
-    tmdbMovieId: number;
+    tmdbId: number;
 
   @IsNotEmpty()
   @IsString()
