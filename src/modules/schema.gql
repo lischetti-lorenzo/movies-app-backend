@@ -2,6 +2,22 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Cast {
+  character: String!
+  name: String!
+  order: Int!
+}
+
+type Credit {
+  cast: [Cast!]!
+  crew: [Crew!]!
+}
+
+type Crew {
+  job: String!
+  name: String!
+}
+
 type LoginResponse {
   access_token: String!
   user: User!
@@ -14,6 +30,7 @@ input LoginUserInput {
 
 type Movie {
   adult: Boolean!
+  credit: Credit!
   originalTitle: String!
   overview: String!
   popularity: Float!
@@ -37,6 +54,7 @@ type Query {
 }
 
 type TvShow {
+  credit: Credit!
   firstAirDate: String!
   name: String!
   overview: String!

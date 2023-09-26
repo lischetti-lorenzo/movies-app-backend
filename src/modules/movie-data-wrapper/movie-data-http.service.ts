@@ -28,4 +28,9 @@ export class MovieDataHttpService extends AbstractHttpRequest {
     const response = await super.getMethod<ListResponse<T>>(endpoint);
     return response.results;
   }
+
+  async getOne<T> (endpoint: string): Promise<T> {
+    const response = await super.getMethod<T>(endpoint);
+    return response;
+  }
 }

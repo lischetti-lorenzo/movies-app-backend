@@ -1,8 +1,9 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { TvShow } from '../../models/tv-show.model';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TvShowService } from './tv-show.service';
+import { Credit } from '../../models/film-abstract.model';
 
 @Resolver(() => TvShow)
 @UseGuards(JwtAuthGuard)
@@ -22,5 +23,12 @@ export class TvShowResolver {
   @Mutation(() => Boolean)
   async likeTvShow (): Promise<boolean> {
     return true;
+  }
+
+  @ResolveField('credit', returns => Credit)
+  async getCredits (
+    @Parent() movie: TvShow
+  ): Promise<Credit> {
+    return await this.tvShowService.getTvShowCredits(movie.tmdbId);
   }
 }
