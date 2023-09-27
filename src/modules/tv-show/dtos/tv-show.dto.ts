@@ -23,7 +23,6 @@ export class TvShowDto {
   @Expose({ name: 'poster_path' })
     posterPath: string | null;
 
-  @IsNotEmpty()
   @IsString()
   @Expose({ name: 'first_air_date' })
     firstAirDate: string;

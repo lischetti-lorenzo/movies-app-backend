@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class MovieDto {
   @IsNotEmpty()
@@ -16,7 +16,6 @@ export class MovieDto {
   @Expose({ name: 'original_title' })
     originalTitle: string;
 
-  @IsNotEmpty()
   @IsString()
     overview: string;
 
@@ -24,12 +23,11 @@ export class MovieDto {
   @IsNumber()
     popularity: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   @Expose({ name: 'poster_path' })
     posterPath: string;
 
-  @IsNotEmpty()
   @IsString()
   @Expose({ name: 'release_date' })
     releaseDate: string;

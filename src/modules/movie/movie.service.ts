@@ -21,4 +21,9 @@ export class MovieService {
     const movieCredits = await this.tmdbDataWrapperService.getMovieCredits(movieId);
     return plainToInstance(Credit, movieCredits);
   }
+
+  async getMovies (query: string, page: number): Promise<Movie[]> {
+    const movies = await this.tmdbDataWrapperService.getMovies(query, page);
+    return plainToInstance(this.cls, movies);
+  }
 }

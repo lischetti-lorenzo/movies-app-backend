@@ -49,8 +49,10 @@ type Mutation {
 }
 
 type Query {
+  movies(page: Int = 1, query: String!): [Movie!]!
   popularMovies(page: Int = 1): [Movie!]!
   popularTvShows(page: Int = 1): [TvShow!]!
+  tvShows(page: Int = 1, query: String!): [TvShow!]!
 }
 
 type TvShow {

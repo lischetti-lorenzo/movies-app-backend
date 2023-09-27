@@ -14,10 +14,17 @@ export class MovieResolver {
 
   @Query(() => [Movie], { name: 'popularMovies' })
   async getPopularMovies (
-    @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number | undefined | null
+    @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number
   ): Promise<Movie[]> {
-    page = page ?? 1;
     return await this.movieService.getPopularMovies(page);
+  }
+
+  @Query(() => [Movie], { name: 'movies' })
+  async getMovies (
+    @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number,
+      @Args('query') query: string
+  ): Promise<Movie[]> {
+    return await this.movieService.getMovies(query, page);
   }
 
   @Mutation(() => Boolean)

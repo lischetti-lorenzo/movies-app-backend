@@ -14,10 +14,17 @@ export class TvShowResolver {
 
   @Query(() => [TvShow], { name: 'popularTvShows' })
   async getPopularTvShows (
-    @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number | undefined | null
+    @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number
   ): Promise<TvShow[]> {
-    page = page ?? 1;
     return await this.tvShowService.getPopularTvShows(page);
+  }
+
+  @Query(() => [TvShow], { name: 'tvShows' })
+  async getTvShows (
+    @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number,
+      @Args('query') query: string
+  ): Promise<TvShow[]> {
+    return await this.tvShowService.getTvShows(query, page);
   }
 
   @Mutation(() => Boolean)

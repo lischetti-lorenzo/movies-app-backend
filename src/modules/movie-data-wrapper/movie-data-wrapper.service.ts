@@ -56,4 +56,24 @@ export class MovieDataWrapperService {
       throw new Error(err);
     }
   }
+
+  async getMovies (query: string, page: number): Promise<MovieDto[]> {
+    try {
+      const movies = await this.tmdbHttpService
+        .getAll<MovieDto>(`search/${TmdbEndpoints.MOVIES}?query=${query}&page=${page}`);
+      return await transformAndValidate(MovieDto, movies, { validator: { whitelist: true } });
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async getTvShows (query: string, page: number): Promise<TvShowDto[]> {
+    try {
+      const tvShows = await this.tmdbHttpService
+        .getAll<TvShowDto>(`search/${TmdbEndpoints.TV_SHOWS}?query=${query}&page=${page}`);
+      return await transformAndValidate(TvShowDto, tvShows, { validator: { whitelist: true } });
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
 }
