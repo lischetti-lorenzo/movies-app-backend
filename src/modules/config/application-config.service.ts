@@ -13,8 +13,8 @@ export class ApplicationConfigService {
     return this.configService.get('TMDB_API_BASE_URL') as string;
   }
 
-  get origin (): string {
-    return 'https://studio.apollographql.com';
+  get origin (): string[] {
+    return ['https://studio.apollographql.com', this.configService.get('FRONTEND_URL') as string];
   }
 
   get tmdbToken (): string {
