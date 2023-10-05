@@ -41,6 +41,12 @@ type Movie {
   voteAverage: Float!
 }
 
+type MoviesList {
+  page: Int!
+  results: [Movie!]!
+  totalPages: Int!
+}
+
 type Mutation {
   likeMovie: Boolean!
   likeTvShow: Boolean!
@@ -49,10 +55,10 @@ type Mutation {
 }
 
 type Query {
-  movies(page: Int = 1, query: String!): [Movie!]!
-  popularMovies(page: Int = 1): [Movie!]!
-  popularTvShows(page: Int = 1): [TvShow!]!
-  tvShows(page: Int = 1, query: String!): [TvShow!]!
+  movies(page: Int = 1, query: String!): MoviesList!
+  popularMovies(page: Int = 1): MoviesList!
+  popularTvShows(page: Int = 1): TvShowsList!
+  tvShows(page: Int = 1, query: String!): TvShowsList!
 }
 
 type TvShow {
@@ -64,6 +70,12 @@ type TvShow {
   posterPath: String
   tmdbId: Int!
   voteAverage: Float!
+}
+
+type TvShowsList {
+  page: Int!
+  results: [TvShow!]!
+  totalPages: Int!
 }
 
 type User {

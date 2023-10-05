@@ -3,13 +3,6 @@ import { AbstractHttpRequest } from '../../shared/abstract.http.request';
 import { HttpService } from '@nestjs/axios';
 import { ApplicationConfigService } from '../config/application-config.service';
 
-interface ListResponse<T> {
-  page: number
-  results: T[]
-  total_pages: number
-  total_results: number
-}
-
 @Injectable()
 export class MovieDataHttpService extends AbstractHttpRequest {
   constructor (
@@ -24,9 +17,9 @@ export class MovieDataHttpService extends AbstractHttpRequest {
     }, applicationConfigService.tmdbApiUrl);
   }
 
-  async getAll<T> (endpoint: string): Promise<T[]> {
-    const response = await super.getMethod<ListResponse<T>>(endpoint);
-    return response.results;
+  async getAll<T> (endpoint: string): Promise<T> {
+    const response = await super.getMethod<T>(endpoint);
+    return response;
   }
 
   async getOne<T> (endpoint: string): Promise<T> {

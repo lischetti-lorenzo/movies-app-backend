@@ -1,9 +1,10 @@
-import { Query, Args, Int, Resolver, Mutation, ResolveField, Parent } from '@nestjs/graphql';
+import { Resolver, Mutation, ResolveField, Parent, Query, Args, Int } from '@nestjs/graphql';
 import { Movie } from '../../models/movie.model';
 import { MovieService } from './movie.service';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Credit } from '../../models/film-abstract.model';
+import { MoviesList } from '../../models/movies-list.model';
 
 @Resolver(() => Movie)
 @UseGuards(JwtAuthGuard)
@@ -12,18 +13,18 @@ export class MovieResolver {
     private readonly movieService: MovieService
   ) {}
 
-  @Query(() => [Movie], { name: 'popularMovies' })
+  @Query(() => MoviesList, { name: 'popularMovies' })
   async getPopularMovies (
     @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number
-  ): Promise<Movie[]> {
+  ): Promise<MoviesList> {
     return await this.movieService.getPopularMovies(page);
   }
 
-  @Query(() => [Movie], { name: 'movies' })
+  @Query(() => MoviesList, { name: 'movies' })
   async getMovies (
     @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number,
       @Args('query') query: string
-  ): Promise<Movie[]> {
+  ): Promise<MoviesList> {
     return await this.movieService.getMovies(query, page);
   }
 

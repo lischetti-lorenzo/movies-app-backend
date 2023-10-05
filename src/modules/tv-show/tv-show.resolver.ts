@@ -4,6 +4,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TvShowService } from './tv-show.service';
 import { Credit } from '../../models/film-abstract.model';
+import { TvShowsList } from '../../models/tv-shows-list.model';
 
 @Resolver(() => TvShow)
 @UseGuards(JwtAuthGuard)
@@ -12,18 +13,18 @@ export class TvShowResolver {
     private readonly tvShowService: TvShowService
   ) {}
 
-  @Query(() => [TvShow], { name: 'popularTvShows' })
+  @Query(() => TvShowsList, { name: 'popularTvShows' })
   async getPopularTvShows (
     @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number
-  ): Promise<TvShow[]> {
+  ): Promise<TvShowsList> {
     return await this.tvShowService.getPopularTvShows(page);
   }
 
-  @Query(() => [TvShow], { name: 'tvShows' })
+  @Query(() => TvShowsList, { name: 'tvShows' })
   async getTvShows (
     @Args('page', { type: () => Int, nullable: true, defaultValue: 1 }) page: number,
       @Args('query') query: string
-  ): Promise<TvShow[]> {
+  ): Promise<TvShowsList> {
     return await this.tvShowService.getTvShows(query, page);
   }
 

@@ -1,20 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { Movie } from '../../models/movie.model';
 import { MovieDataWrapperService } from '../movie-data-wrapper/movie-data-wrapper.service';
 import { plainToInstance } from 'class-transformer';
 import { Credit } from '../../models/film-abstract.model';
+import { MoviesList } from '../../models/movies-list.model';
 
 @Injectable()
 export class MovieService {
-  private readonly cls = Movie;
-
   constructor (
     private readonly tmdbDataWrapperService: MovieDataWrapperService
   ) {}
 
-  async getPopularMovies (page: number): Promise<Movie[]> {
+  async getPopularMovies (page: number): Promise<MoviesList> {
     const popularMovies = await this.tmdbDataWrapperService.getPopularMovies(page);
-    return plainToInstance(this.cls, popularMovies);
+    return plainToInstance(MoviesList, popularMovies, { exposeUnsetFields: false });
   }
 
   async getMovieCredits (movieId: number): Promise<Credit> {
@@ -22,8 +20,8 @@ export class MovieService {
     return plainToInstance(Credit, movieCredits);
   }
 
-  async getMovies (query: string, page: number): Promise<Movie[]> {
+  async getMovies (query: string, page: number): Promise<MoviesList> {
     const movies = await this.tmdbDataWrapperService.getMovies(query, page);
-    return plainToInstance(this.cls, movies);
+    return plainToInstance(MoviesList, movies, { exposeUnsetFields: false });
   }
 }

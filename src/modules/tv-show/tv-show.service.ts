@@ -1,20 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { TvShow } from '../../models/tv-show.model';
 import { MovieDataWrapperService } from '../movie-data-wrapper/movie-data-wrapper.service';
 import { plainToInstance } from 'class-transformer';
 import { Credit } from '../../models/film-abstract.model';
+import { TvShowsList } from '../../models/tv-shows-list.model';
 
 @Injectable()
 export class TvShowService {
-  private readonly cls = TvShow;
-
   constructor (
     private readonly tmdbDataWrapperService: MovieDataWrapperService
   ) {}
 
-  async getPopularTvShows (page: number): Promise<TvShow[]> {
+  async getPopularTvShows (page: number): Promise<TvShowsList> {
     const popularTvShows = await this.tmdbDataWrapperService.getPopularTvShows(page);
-    return plainToInstance(this.cls, popularTvShows);
+    return plainToInstance(TvShowsList, popularTvShows, { exposeUnsetFields: false });
   }
 
   async getTvShowCredits (tvShowId: number): Promise<Credit> {
@@ -22,8 +20,8 @@ export class TvShowService {
     return plainToInstance(Credit, movieCredits);
   }
 
-  async getTvShows (query: string, page: number): Promise<TvShow[]> {
+  async getTvShows (query: string, page: number): Promise<TvShowsList> {
     const tvShows = await this.tmdbDataWrapperService.getTvShows(query, page);
-    return plainToInstance(this.cls, tvShows);
+    return plainToInstance(TvShowsList, tvShows, { exposeUnsetFields: false });
   }
 }
