@@ -79,4 +79,18 @@ export class MovieResolver {
   ): Promise<Credit> {
     return await this.movieService.getMovieCredits(movie.tmdbId);
   }
+
+  @ResolveField('favorite', returns => Boolean)
+  async isFavorite (
+    @CurrentUser() user: User,
+      @Parent() movie: Movie
+  ): Promise<boolean> {
+    return await this.userFavoriteService.isItemFavorite({
+      where: {
+        userId: user.id,
+        tmdbId: movie.tmdbId,
+        mediaType: 'MOVIE'
+      }
+    });
+  }
 }

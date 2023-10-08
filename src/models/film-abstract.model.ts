@@ -58,4 +58,7 @@ export class FilmAbstract {
 
   @Field(() => Credit)
     credit: Credit;
+
+  @Field(() => Boolean)
+    favorite: boolean;
 }

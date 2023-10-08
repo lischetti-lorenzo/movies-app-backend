@@ -30,4 +30,12 @@ export class UserFavoriteService {
       where: data.where
     });
   }
+
+  async isItemFavorite (data: Prisma.UserFavsFindFirstArgs): Promise<boolean> {
+    const item = await this.prisma.userFavs.findFirst({
+      where: data.where
+    }) ?? null;
+
+    return item !== null;
+  }
 }

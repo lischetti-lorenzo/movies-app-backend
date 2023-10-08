@@ -34,6 +34,7 @@ type Movie {
   adult: Boolean!
   backdropPath: String
   credit: Credit!
+  favorite: Boolean!
   originalTitle: String!
   overview: String!
   popularity: Float!
@@ -69,6 +70,7 @@ type Query {
 type TvShow {
   backdropPath: String
   credit: Credit!
+  favorite: Boolean!
   firstAirDate: String!
   name: String!
   overview: String!
