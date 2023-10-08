@@ -17,12 +17,7 @@ export class MovieDataHttpService extends AbstractHttpRequest {
     }, applicationConfigService.tmdbApiUrl);
   }
 
-  async getAll<T> (endpoint: string): Promise<T> {
-    const response = await super.getMethod<T>(endpoint);
-    return response;
-  }
-
-  async getOne<T> (endpoint: string): Promise<T> {
+  async get<T> (endpoint: string): Promise<T> {
     const response = await super.getMethod<T>(endpoint);
     return response;
   }

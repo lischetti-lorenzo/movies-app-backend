@@ -28,6 +28,13 @@ export class MovieResolver {
     return await this.movieService.getMovies(query, page);
   }
 
+  @Query(() => Movie, { name: 'movie' })
+  async getMovie (
+    @Args('tmdbMovieId', { type: () => Int }) tmdbMovieId: number
+  ): Promise<Movie> {
+    return await this.movieService.getMovieById(tmdbMovieId);
+  }
+
   @Mutation(() => Boolean)
   async likeMovie (): Promise<boolean> {
     return true;

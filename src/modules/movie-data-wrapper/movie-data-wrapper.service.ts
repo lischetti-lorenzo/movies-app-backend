@@ -22,7 +22,7 @@ export class MovieDataWrapperService {
   async getPopularMovies (page: number): Promise<MoviesListResponseDto> {
     try {
       const popularMovies = await this.tmdbHttpService
-        .getAll<MovieDto>(`${TmdbEndpoints.MOVIES}/popular?page=${page}`);
+        .get<MovieDto>(`${TmdbEndpoints.MOVIES}/popular?page=${page}`);
       return await transformAndValidate(MoviesListResponseDto, popularMovies, { validator: { whitelist: true } });
     } catch (err) {
       throw new Error(err);
@@ -32,7 +32,7 @@ export class MovieDataWrapperService {
   async getPopularTvShows (page: number): Promise<TvShowsListResponseDto> {
     try {
       const popularTvShows = await this.tmdbHttpService
-        .getAll<TvShowDto>(`${TmdbEndpoints.TV_SHOWS}/popular?page=${page}`);
+        .get<TvShowDto>(`${TmdbEndpoints.TV_SHOWS}/popular?page=${page}`);
       return await transformAndValidate(TvShowsListResponseDto, popularTvShows, { validator: { whitelist: true } });
     } catch (err) {
       throw new Error(err);
@@ -42,7 +42,7 @@ export class MovieDataWrapperService {
   async getMovieCredits (movieId: number): Promise<CreditsDto> {
     try {
       const movieCredits = await this.tmdbHttpService
-        .getOne<CreditsDto>(`${TmdbEndpoints.MOVIES}/${movieId}/${TmdbEndpoints.CREDITS}`);
+        .get<CreditsDto>(`${TmdbEndpoints.MOVIES}/${movieId}/${TmdbEndpoints.CREDITS}`);
       return await transformAndValidate(CreditsDto, movieCredits, { validator: { whitelist: true } });
     } catch (err) {
       throw new Error(err);
@@ -52,7 +52,7 @@ export class MovieDataWrapperService {
   async getTvShowCredits (tvShowId: number): Promise<CreditsDto> {
     try {
       const tvShowCredits = await this.tmdbHttpService
-        .getOne<CreditsDto>(`${TmdbEndpoints.TV_SHOWS}/${tvShowId}/${TmdbEndpoints.CREDITS}`);
+        .get<CreditsDto>(`${TmdbEndpoints.TV_SHOWS}/${tvShowId}/${TmdbEndpoints.CREDITS}`);
       return await transformAndValidate(CreditsDto, tvShowCredits, { validator: { whitelist: true } });
     } catch (err) {
       throw new Error(err);
@@ -62,7 +62,7 @@ export class MovieDataWrapperService {
   async getMovies (query: string, page: number): Promise<MoviesListResponseDto> {
     try {
       const movies = await this.tmdbHttpService
-        .getAll<MovieDto>(`search/${TmdbEndpoints.MOVIES}?query=${query}&page=${page}`);
+        .get<MovieDto>(`search/${TmdbEndpoints.MOVIES}?query=${query}&page=${page}`);
       return await transformAndValidate(MoviesListResponseDto, movies, { validator: { whitelist: true } });
     } catch (err) {
       throw new Error(err);
@@ -72,8 +72,18 @@ export class MovieDataWrapperService {
   async getTvShows (query: string, page: number): Promise<TvShowsListResponseDto> {
     try {
       const tvShows = await this.tmdbHttpService
-        .getAll<TvShowDto>(`search/${TmdbEndpoints.TV_SHOWS}?query=${query}&page=${page}`);
+        .get<TvShowDto>(`search/${TmdbEndpoints.TV_SHOWS}?query=${query}&page=${page}`);
       return await transformAndValidate(TvShowsListResponseDto, tvShows, { validator: { whitelist: true } });
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async getMovieDetails (tmdbMovieId: number): Promise<MovieDto> {
+    try {
+      const movie = await this.tmdbHttpService
+        .get<MovieDto>(`${TmdbEndpoints.MOVIES}/${tmdbMovieId}`);
+      return await transformAndValidate(MovieDto, movie, { validator: { whitelist: true } });
     } catch (err) {
       throw new Error(err);
     }
