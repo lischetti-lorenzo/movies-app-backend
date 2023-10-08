@@ -36,9 +36,9 @@ export class TvShowResolver {
   async getTvShow (
     @Args('tmdbTvShowId', { type: () => Int }) tmdbTvShowId: number
   ): Promise<TvShow> {
-    const movie = await this.tvShowService.getTvShowById(tmdbTvShowId);
-    if (movie === null) throw new NotFoundException(`Movie with id ${tmdbTvShowId} not found`);
-    return movie;
+    const tvShow = await this.tvShowService.getTvShowById(tmdbTvShowId);
+    if (tvShow === null) throw new NotFoundException(`Tv show with id ${tmdbTvShowId} not found`);
+    return tvShow;
   }
 
   @Mutation(() => Boolean)
