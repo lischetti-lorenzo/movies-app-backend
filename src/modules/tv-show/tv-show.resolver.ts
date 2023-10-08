@@ -42,7 +42,34 @@ export class TvShowResolver {
   }
 
   @Mutation(() => Boolean)
-  async likeTvShow (): Promise<boolean> {
+  async likeTvShow (
+    @CurrentUser() user: User,
+      @Args('tvShowId', { type: () => Int }) tvShowId: number
+  ): Promise<boolean> {
+    await this.userFavoriteService.likeItem({
+      data: {
+        userId: user.id,
+        tmdbId: tvShowId,
+        mediaType: 'TVSHOW'
+      }
+    });
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  async unlikeTvShow (
+    @CurrentUser() user: User,
+      @Args('tvShowId', { type: () => Int }) tvShowId: number
+  ): Promise<boolean> {
+    await this.userFavoriteService.unlikeItem({
+      where: {
+        tmdbId_userId_mediaType: {
+          userId: user.id,
+          tmdbId: tvShowId,
+          mediaType: 'TVSHOW'
+        }
+      }
+    });
     return true;
   }
 
