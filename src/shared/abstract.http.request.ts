@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom, map } from 'rxjs';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import { getAxiosError } from './function.utils';
+import { NotFoundException } from '@nestjs/common';
 
 export abstract class AbstractHttpRequest {
   constructor (
@@ -28,6 +29,7 @@ export abstract class AbstractHttpRequest {
         catchError((error: AxiosError) => {
           // Here we handle all the errors got from the external API
           const message = getAxiosError(error);
+          if (error.response?.status === 404) throw new NotFoundException(message);
           throw new Error(message);
         })
       ));

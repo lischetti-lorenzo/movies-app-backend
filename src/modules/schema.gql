@@ -51,14 +51,15 @@ type MoviesList {
 }
 
 type Mutation {
-  likeMovie: Boolean!
+  likeMovie(movieId: Int!): Boolean!
   likeTvShow: Boolean!
   login(loginUserInput: LoginUserInput!): LoginResponse!
   signUp(createUserInput: LoginUserInput!): User!
+  unlikeMovie(movieId: Int!): Boolean!
 }
 
 type Query {
-  movie(tmdbMovieId: Int!): Movie!
+  movie(tmdbMovieId: Int!): Movie
   movies(page: Int = 1, query: String!): MoviesList!
   popularMovies(page: Int = 1): MoviesList!
   popularTvShows(page: Int = 1): TvShowsList!

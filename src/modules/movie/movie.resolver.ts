@@ -1,10 +1,12 @@
 import { Resolver, Mutation, ResolveField, Parent, Query, Args, Int } from '@nestjs/graphql';
 import { Movie } from '../../models/movie.model';
 import { MovieService } from './movie.service';
-import { UseGuards } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Credit } from '../../models/film-abstract.model';
 import { MoviesList } from '../../models/movies-list.model';
+import { CurrentUser } from '../auth/decorators/auth.decorator';
+import { User } from '../../models/user.model';
 
 @Resolver(() => Movie)
 @UseGuards(JwtAuthGuard)
@@ -28,15 +30,30 @@ export class MovieResolver {
     return await this.movieService.getMovies(query, page);
   }
 
-  @Query(() => Movie, { name: 'movie' })
+  @Query(() => Movie, { name: 'movie', nullable: true })
   async getMovie (
     @Args('tmdbMovieId', { type: () => Int }) tmdbMovieId: number
   ): Promise<Movie> {
-    return await this.movieService.getMovieById(tmdbMovieId);
+    const movie = await this.movieService.getMovieById(tmdbMovieId);
+    if (movie === null) throw new NotFoundException(`Movie with id ${tmdbMovieId} not found`);
+    return movie;
   }
 
   @Mutation(() => Boolean)
-  async likeMovie (): Promise<boolean> {
+  async likeMovie (
+    @CurrentUser() user: User,
+      @Args('movieId', { type: () => Int }) movieId: number
+  ): Promise<boolean> {
+    await this.movieService.likeMovie(user.id, movieId);
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  async unlikeMovie (
+    @CurrentUser() user: User,
+      @Args('movieId', { type: () => Int }) movieId: number
+  ): Promise<boolean> {
+    await this.movieService.unlikeMovie(user.id, movieId);
     return true;
   }
 

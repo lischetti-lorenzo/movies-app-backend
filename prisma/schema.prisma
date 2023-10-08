@@ -19,5 +19,24 @@ model User {
   updatedAt DateTime  @updatedAt @map("updated_at")
   deletedAt DateTime? @map("deleted_at")
 
+  favs      UserFavs[]
+
   @@map("users")
+}
+
+model UserFavs {
+  tmdbId    Int
+  userId    Int @map("user_id")
+  user      User  @relation(fields: [userId], references: [id])
+  mediaType  MediaType  @map("media_type ")
+
+  @@id([tmdbId, userId, mediaType])
+  @@map("user_favs")
+}
+
+enum MediaType {
+  TVSHOW  @map("TVSHOW")
+  MOVIE   @map("MOVIE")
+
+  @@map("media_type")
 }

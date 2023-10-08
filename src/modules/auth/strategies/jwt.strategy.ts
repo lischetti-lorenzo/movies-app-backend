@@ -4,7 +4,7 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { ApplicationConfigService } from '../../config/application-config.service';
 
 export interface JwtResponse {
-  userId: number
+  id: number
   username: string
 }
 
@@ -23,7 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   validate (payload: any): JwtResponse {
     // payload is the decoded jwt token
     return {
-      userId: payload.sub,
+      id: payload.sub,
       username: payload.username
     };
   }
