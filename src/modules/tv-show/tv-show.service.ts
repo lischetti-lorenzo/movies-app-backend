@@ -3,6 +3,7 @@ import { MovieDataWrapperService } from '../movie-data-wrapper/movie-data-wrappe
 import { plainToInstance } from 'class-transformer';
 import { Credit } from '../../models/film-abstract.model';
 import { TvShowsList } from '../../models/tv-shows-list.model';
+import { TvShow } from '../../models/tv-show.model';
 
 @Injectable()
 export class TvShowService {
@@ -23,5 +24,10 @@ export class TvShowService {
   async getTvShows (query: string, page: number): Promise<TvShowsList> {
     const tvShows = await this.tmdbDataWrapperService.getTvShows(query, page);
     return plainToInstance(TvShowsList, tvShows, { exposeUnsetFields: false });
+  }
+
+  async getTvShowById (tmdbMovieId: number): Promise<TvShow> {
+    const movieDetails = await this.tmdbDataWrapperService.getTvShowDetails(tmdbMovieId);
+    return plainToInstance(TvShow, movieDetails);
   }
 }

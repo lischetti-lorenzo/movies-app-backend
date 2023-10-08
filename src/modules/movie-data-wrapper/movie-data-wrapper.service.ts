@@ -90,4 +90,16 @@ export class MovieDataWrapperService {
       throw new Error(err);
     }
   }
+
+  async getTvShowDetails (tmdbTvShowId: number): Promise<TvShowDto | null> {
+    try {
+      const tvShow = await this.tmdbHttpService
+        .getOne<TvShowDto>(`${TmdbEndpoints.TV_SHOWS}/${tmdbTvShowId}`);
+
+      if (tvShow === null) return null;
+      return await transformAndValidate(TvShowDto, tvShow, { validator: { whitelist: true } });
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
 }

@@ -7,12 +7,14 @@ import { Credit } from '../../models/film-abstract.model';
 import { MoviesList } from '../../models/movies-list.model';
 import { CurrentUser } from '../auth/decorators/auth.decorator';
 import { User } from '../../models/user.model';
+import { UserFavoriteService } from '../user-favorite/user-favorite.service';
 
 @Resolver(() => Movie)
 @UseGuards(JwtAuthGuard)
 export class MovieResolver {
   constructor (
-    private readonly movieService: MovieService
+    private readonly movieService: MovieService,
+    private readonly userFavoriteService: UserFavoriteService
   ) {}
 
   @Query(() => MoviesList, { name: 'popularMovies' })
@@ -44,7 +46,13 @@ export class MovieResolver {
     @CurrentUser() user: User,
       @Args('movieId', { type: () => Int }) movieId: number
   ): Promise<boolean> {
-    await this.movieService.likeMovie(user.id, movieId);
+    await this.userFavoriteService.likeItem({
+      data: {
+        userId: user.id,
+        tmdbId: movieId,
+        mediaType: 'MOVIE'
+      }
+    });
     return true;
   }
 
@@ -53,7 +61,15 @@ export class MovieResolver {
     @CurrentUser() user: User,
       @Args('movieId', { type: () => Int }) movieId: number
   ): Promise<boolean> {
-    await this.movieService.unlikeMovie(user.id, movieId);
+    await this.userFavoriteService.unlikeItem({
+      where: {
+        tmdbId_userId_mediaType: {
+          userId: user.id,
+          tmdbId: movieId,
+          mediaType: 'MOVIE'
+        }
+      }
+    });
     return true;
   }
 

@@ -10,6 +10,9 @@ import { MovieDataWrapperModule } from '../movie-data-wrapper/movie-data-wrapper
   providers: [
     TvShowService,
     TvShowResolver
+  ],
+  exports: [
+    TvShowService
   ]
 })
 export class TvShowModule {}
