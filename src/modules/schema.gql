@@ -64,6 +64,7 @@ type Query {
   movies(page: Int = 1, query: String!): MoviesList!
   popularMovies(page: Int = 1): MoviesList!
   popularTvShows(page: Int = 1): TvShowsList!
+  tvShow(tmdbTvShowId: Int!): TvShow
   tvShows(page: Int = 1, query: String!): TvShowsList!
 }
 

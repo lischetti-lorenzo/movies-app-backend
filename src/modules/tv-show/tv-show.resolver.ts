@@ -1,16 +1,20 @@
 import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { TvShow } from '../../models/tv-show.model';
-import { UseGuards } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { TvShowService } from './tv-show.service';
 import { Credit } from '../../models/film-abstract.model';
 import { TvShowsList } from '../../models/tv-shows-list.model';
+import { CurrentUser } from '../auth/decorators/auth.decorator';
+import { User } from '@prisma/client';
+import { UserFavoriteService } from '../user-favorite/user-favorite.service';
 
 @Resolver(() => TvShow)
 @UseGuards(JwtAuthGuard)
 export class TvShowResolver {
   constructor (
-    private readonly tvShowService: TvShowService
+    private readonly tvShowService: TvShowService,
+    private readonly userFavoriteService: UserFavoriteService
   ) {}
 
   @Query(() => TvShowsList, { name: 'popularTvShows' })
@@ -28,6 +32,15 @@ export class TvShowResolver {
     return await this.tvShowService.getTvShows(query, page);
   }
 
+  @Query(() => TvShow, { name: 'tvShow', nullable: true })
+  async getTvShow (
+    @Args('tmdbTvShowId', { type: () => Int }) tmdbTvShowId: number
+  ): Promise<TvShow> {
+    const movie = await this.tvShowService.getTvShowById(tmdbTvShowId);
+    if (movie === null) throw new NotFoundException(`Movie with id ${tmdbTvShowId} not found`);
+    return movie;
+  }
+
   @Mutation(() => Boolean)
   async likeTvShow (): Promise<boolean> {
     return true;
@@ -38,5 +51,19 @@ export class TvShowResolver {
     @Parent() movie: TvShow
   ): Promise<Credit> {
     return await this.tvShowService.getTvShowCredits(movie.tmdbId);
+  }
+
+  @ResolveField('favorite', returns => Boolean)
+  async isFavorite (
+    @CurrentUser() user: User,
+      @Parent() tvShow: TvShow
+  ): Promise<boolean> {
+    return await this.userFavoriteService.isItemFavorite({
+      where: {
+        userId: user.id,
+        tmdbId: tvShow.tmdbId,
+        mediaType: 'TVSHOW'
+      }
+    });
   }
 }

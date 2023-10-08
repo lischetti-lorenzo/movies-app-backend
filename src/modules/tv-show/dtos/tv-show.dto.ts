@@ -23,6 +23,11 @@ export class TvShowDto {
   @Expose({ name: 'poster_path' })
     posterPath: string | null;
 
+  @IsOptional()
+  @IsString()
+  @Expose({ name: 'backdrop_path' })
+    backdropPath: string;
+
   @IsString()
   @Expose({ name: 'first_air_date' })
     firstAirDate: string;

@@ -26,8 +26,8 @@ export class TvShowService {
     return plainToInstance(TvShowsList, tvShows, { exposeUnsetFields: false });
   }
 
-  async getTvShowById (tmdbMovieId: number): Promise<TvShow> {
-    const movieDetails = await this.tmdbDataWrapperService.getTvShowDetails(tmdbMovieId);
-    return plainToInstance(TvShow, movieDetails);
+  async getTvShowById (tmdbTvShowId: number): Promise<TvShow> {
+    const tvShowDetails = await this.tmdbDataWrapperService.getTvShowDetails(tmdbTvShowId);
+    return plainToInstance(TvShow, tvShowDetails);
   }
 }
