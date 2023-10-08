@@ -2,6 +2,9 @@ import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 class Cast {
+  @Field(() => Int)
+    id: number;
+
   @Field(() => String)
     name: string;
 

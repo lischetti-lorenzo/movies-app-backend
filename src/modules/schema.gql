@@ -4,6 +4,7 @@
 
 type Cast {
   character: String!
+  id: Int!
   name: String!
   order: Int!
 }

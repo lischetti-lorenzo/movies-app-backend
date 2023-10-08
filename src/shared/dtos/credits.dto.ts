@@ -2,6 +2,10 @@ import { Type } from 'class-transformer';
 import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 class CastDto {
+  @IsNotEmpty()
+  @IsNumber()
+    id: number;
+
   @IsOptional()
   @IsString()
     name: string;
