@@ -44,6 +44,9 @@ export class FilmAbstract {
   @Field(() => String, { nullable: true })
     posterPath: string | null;
 
+  @Field(() => String, { nullable: true })
+    backdropPath: string | null;
+
   @Field(() => Float)
     voteAverage: number;
 

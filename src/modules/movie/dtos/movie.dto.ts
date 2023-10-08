@@ -28,6 +28,11 @@ export class MovieDto {
   @Expose({ name: 'poster_path' })
     posterPath: string;
 
+  @IsOptional()
+  @IsString()
+  @Expose({ name: 'backdrop_path' })
+    backdropPath: string;
+
   @IsString()
   @Expose({ name: 'release_date' })
     releaseDate: string;

@@ -30,6 +30,7 @@ input LoginUserInput {
 
 type Movie {
   adult: Boolean!
+  backdropPath: String
   credit: Credit!
   originalTitle: String!
   overview: String!
@@ -63,6 +64,7 @@ type Query {
 }
 
 type TvShow {
+  backdropPath: String
   credit: Credit!
   firstAirDate: String!
   name: String!
