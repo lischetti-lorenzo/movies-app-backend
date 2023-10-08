@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 
 class CastDto {
@@ -17,6 +17,11 @@ class CastDto {
   @IsNotEmpty()
   @IsNumber()
     order: number;
+
+  @IsOptional()
+  @IsString()
+  @Expose({ name: 'profile_path' })
+    profilePath: string;
 }
 
 class CrewDto {

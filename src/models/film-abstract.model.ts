@@ -13,6 +13,9 @@ class Cast {
 
   @Field(() => Int)
     order: number;
+
+  @Field(() => String, { nullable: true })
+    profilePath: string | null;
 }
 
 @ObjectType()

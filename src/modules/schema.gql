@@ -7,6 +7,7 @@ type Cast {
   id: Int!
   name: String!
   order: Int!
+  profilePath: String
 }
 
 type Credit {
