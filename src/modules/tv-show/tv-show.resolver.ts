@@ -52,10 +52,9 @@ export class TvShowResolver {
 
   @Query(() => Int, { name: 'totalFavoriteTvShows' })
   async getTotalFavoriteTvShows (
-    @CurrentUser() user: User,
-      @Args() pagination: PaginationArgs
+    @CurrentUser() user: User
   ): Promise<number> {
-    return await this.tvShowService.getTotalFavoritesTvShows(user.id, pagination.take, pagination.skip);
+    return await this.tvShowService.getTotalFavoritesTvShows(user.id);
   }
 
   @Mutation(() => Boolean)

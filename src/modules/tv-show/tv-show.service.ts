@@ -50,14 +50,12 @@ export class TvShowService {
     return plainToInstance(TvShow, tvShows);
   }
 
-  async getTotalFavoritesTvShows (userId: number, take: number, skip: number): Promise<number> {
+  async getTotalFavoritesTvShows (userId: number): Promise<number> {
     const favoritesTvShows = await this.prisma.userFavs.findMany({
       where: {
         userId,
         mediaType: 'TVSHOW'
-      },
-      take,
-      skip
+      }
     }) ?? [];
 
     return favoritesTvShows.length;

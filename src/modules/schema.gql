@@ -67,8 +67,8 @@ type Query {
   movies(page: Int = 1, query: String!): MoviesList!
   popularMovies(page: Int = 1): MoviesList!
   popularTvShows(page: Int = 1): TvShowsList!
-  totalFavoriteMovies(skip: Int! = 0, take: Int! = 10): Int!
-  totalFavoriteTvShows(skip: Int! = 0, take: Int! = 10): Int!
+  totalFavoriteMovies: Int!
+  totalFavoriteTvShows: Int!
   tvShow(tmdbTvShowId: Int!): TvShow
   tvShows(page: Int = 1, query: String!): TvShowsList!
 }
