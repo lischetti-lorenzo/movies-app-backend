@@ -41,6 +41,10 @@ export class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
     NODE_AUTH_JWT_EXPIRATION: string;
+
+  @IsString()
+  @IsNotEmpty()
+    FRONTEND_URL: string;
 }
 
 export function validate (
