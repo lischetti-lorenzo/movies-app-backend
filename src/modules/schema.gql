@@ -61,6 +61,8 @@ type Mutation {
 }
 
 type Query {
+  favoriteMovies(skip: Int! = 0, take: Int! = 10): [Movie!]!
+  favoriteTvShows(skip: Int! = 0, take: Int! = 10): [TvShow!]!
   movie(tmdbMovieId: Int!): Movie
   movies(page: Int = 1, query: String!): MoviesList!
   popularMovies(page: Int = 1): MoviesList!

@@ -8,6 +8,7 @@ import { MoviesList } from '../../models/movies-list.model';
 import { CurrentUser } from '../auth/decorators/auth.decorator';
 import { User } from '../../models/user.model';
 import { UserFavoriteService } from '../user-favorite/user-favorite.service';
+import { PaginationArgs } from '../../shared/args/pagination.args';
 
 @Resolver(() => Movie)
 @UseGuards(JwtAuthGuard)
@@ -39,6 +40,14 @@ export class MovieResolver {
     const movie = await this.movieService.getMovieById(tmdbMovieId);
     if (movie === null) throw new NotFoundException(`Movie with id ${tmdbMovieId} not found`);
     return movie;
+  }
+
+  @Query(() => [Movie], { name: 'favoriteMovies' })
+  async getFavoriteMovies (
+    @CurrentUser() user: User,
+      @Args() pagination: PaginationArgs
+  ): Promise<Movie[]> {
+    return await this.movieService.getFavoritesMovies(user.id, pagination.take, pagination.skip);
   }
 
   @Mutation(() => Boolean)

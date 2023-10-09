@@ -4,11 +4,13 @@ import { plainToInstance } from 'class-transformer';
 import { Credit } from '../../models/film-abstract.model';
 import { TvShowsList } from '../../models/tv-shows-list.model';
 import { TvShow } from '../../models/tv-show.model';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class TvShowService {
   constructor (
-    private readonly tmdbDataWrapperService: MovieDataWrapperService
+    private readonly tmdbDataWrapperService: MovieDataWrapperService,
+    private readonly prisma: PrismaService
   ) {}
 
   async getPopularTvShows (page: number): Promise<TvShowsList> {
@@ -29,5 +31,22 @@ export class TvShowService {
   async getTvShowById (tmdbTvShowId: number): Promise<TvShow> {
     const tvShowDetails = await this.tmdbDataWrapperService.getTvShowDetails(tmdbTvShowId);
     return plainToInstance(TvShow, tvShowDetails);
+  }
+
+  async getFavoritesTvShows (userId: number, take: number, skip: number): Promise<TvShow[]> {
+    const favoritesTvShows = await this.prisma.userFavs.findMany({
+      where: {
+        userId,
+        mediaType: 'TVSHOW'
+      },
+      take,
+      skip
+    });
+
+    // eslint-disable-next-line @typescript-eslint/promise-function-async
+    const tvShowPromises = favoritesTvShows.map(tvShow => this.tmdbDataWrapperService.getTvShowDetails(tvShow.tmdbId));
+    const tvShows = await Promise.all(tvShowPromises);
+
+    return plainToInstance(TvShow, tvShows);
   }
 }

@@ -8,6 +8,7 @@ import { TvShowsList } from '../../models/tv-shows-list.model';
 import { CurrentUser } from '../auth/decorators/auth.decorator';
 import { User } from '@prisma/client';
 import { UserFavoriteService } from '../user-favorite/user-favorite.service';
+import { PaginationArgs } from '../../shared/args/pagination.args';
 
 @Resolver(() => TvShow)
 @UseGuards(JwtAuthGuard)
@@ -39,6 +40,14 @@ export class TvShowResolver {
     const tvShow = await this.tvShowService.getTvShowById(tmdbTvShowId);
     if (tvShow === null) throw new NotFoundException(`Tv show with id ${tmdbTvShowId} not found`);
     return tvShow;
+  }
+
+  @Query(() => [TvShow], { name: 'favoriteTvShows' })
+  async getFavoriteTvShows (
+    @CurrentUser() user: User,
+      @Args() pagination: PaginationArgs
+  ): Promise<TvShow[]> {
+    return await this.tvShowService.getFavoritesTvShows(user.id, pagination.take, pagination.skip);
   }
 
   @Mutation(() => Boolean)
