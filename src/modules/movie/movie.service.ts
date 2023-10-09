@@ -49,4 +49,17 @@ export class MovieService {
 
     return plainToInstance(Movie, movies);
   }
+
+  async getTotalFavoritesMovies (userId: number, take: number, skip: number): Promise<number> {
+    const favoritesMovies = await this.prisma.userFavs.findMany({
+      where: {
+        userId,
+        mediaType: 'MOVIE'
+      },
+      take,
+      skip
+    }) ?? [];
+
+    return favoritesMovies.length;
+  }
 }

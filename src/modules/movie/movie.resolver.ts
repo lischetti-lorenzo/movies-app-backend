@@ -50,6 +50,14 @@ export class MovieResolver {
     return await this.movieService.getFavoritesMovies(user.id, pagination.take, pagination.skip);
   }
 
+  @Query(() => Int, { name: 'totalFavoriteMovies' })
+  async getTotalFavoriteMovies (
+    @CurrentUser() user: User,
+      @Args() pagination: PaginationArgs
+  ): Promise<number> {
+    return await this.movieService.getTotalFavoritesMovies(user.id, pagination.take, pagination.skip);
+  }
+
   @Mutation(() => Boolean)
   async likeMovie (
     @CurrentUser() user: User,
