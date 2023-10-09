@@ -57,27 +57,28 @@ export class MovieResolver {
     return await this.movieService.getTotalFavoritesMovies(user.id);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Movie)
   async likeMovie (
     @CurrentUser() user: User,
       @Args('movieId', { type: () => Int }) movieId: number
-  ): Promise<boolean> {
-    await this.userFavoriteService.likeItem({
+  ): Promise<Movie> {
+    const result = await this.userFavoriteService.likeItem({
       data: {
         userId: user.id,
         tmdbId: movieId,
         mediaType: 'MOVIE'
       }
     });
-    return true;
+
+    return result as Movie;
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Int)
   async unlikeMovie (
     @CurrentUser() user: User,
       @Args('movieId', { type: () => Int }) movieId: number
-  ): Promise<boolean> {
-    await this.userFavoriteService.unlikeItem({
+  ): Promise<number> {
+    return await this.userFavoriteService.unlikeItem({
       where: {
         tmdbId_userId_mediaType: {
           userId: user.id,
@@ -86,7 +87,6 @@ export class MovieResolver {
         }
       }
     });
-    return true;
   }
 
   @ResolveField('credit', returns => Credit)

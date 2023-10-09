@@ -14,7 +14,7 @@ export class UserFavoriteService {
     private readonly tvShowService: TvShowService
   ) {}
 
-  async likeItem (args: Prisma.UserFavsCreateArgs): Promise<void> {
+  async likeItem (args: Prisma.UserFavsCreateArgs): Promise<Movie | TvShow> {
     const { data } = args;
     let item: Movie | TvShow | null = null;
     if (data.mediaType === 'MOVIE') item = await this.movieService.getMovieById(data.tmdbId);
@@ -23,12 +23,14 @@ export class UserFavoriteService {
     if (item === null) throw new NotFoundException(`Item with id ${data.tmdbId} not found`);
 
     await this.prisma.userFavs.create({ data });
+    return item;
   }
 
-  async unlikeItem (data: Prisma.UserFavsDeleteArgs): Promise<void> {
-    await this.prisma.userFavs.delete({
+  async unlikeItem (data: Prisma.UserFavsDeleteArgs): Promise<number> {
+    const deleted = await this.prisma.userFavs.delete({
       where: data.where
     });
+    return deleted.tmdbId;
   }
 
   async isItemFavorite (data: Prisma.UserFavsFindFirstArgs): Promise<boolean> {

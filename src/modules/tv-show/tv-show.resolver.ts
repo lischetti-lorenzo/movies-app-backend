@@ -57,27 +57,28 @@ export class TvShowResolver {
     return await this.tvShowService.getTotalFavoritesTvShows(user.id);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => TvShow)
   async likeTvShow (
     @CurrentUser() user: User,
       @Args('tvShowId', { type: () => Int }) tvShowId: number
-  ): Promise<boolean> {
-    await this.userFavoriteService.likeItem({
+  ): Promise<TvShow> {
+    const result = await this.userFavoriteService.likeItem({
       data: {
         userId: user.id,
         tmdbId: tvShowId,
         mediaType: 'TVSHOW'
       }
     });
-    return true;
+
+    return result as TvShow;
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Int)
   async unlikeTvShow (
     @CurrentUser() user: User,
       @Args('tvShowId', { type: () => Int }) tvShowId: number
-  ): Promise<boolean> {
-    await this.userFavoriteService.unlikeItem({
+  ): Promise<number> {
+    return await this.userFavoriteService.unlikeItem({
       where: {
         tmdbId_userId_mediaType: {
           userId: user.id,
@@ -86,7 +87,6 @@ export class TvShowResolver {
         }
       }
     });
-    return true;
   }
 
   @ResolveField('credit', returns => Credit)

@@ -52,12 +52,12 @@ type MoviesList {
 }
 
 type Mutation {
-  likeMovie(movieId: Int!): Boolean!
-  likeTvShow(tvShowId: Int!): Boolean!
+  likeMovie(movieId: Int!): Movie!
+  likeTvShow(tvShowId: Int!): TvShow!
   login(loginUserInput: LoginUserInput!): LoginResponse!
   signUp(createUserInput: LoginUserInput!): User!
-  unlikeMovie(movieId: Int!): Boolean!
-  unlikeTvShow(tvShowId: Int!): Boolean!
+  unlikeMovie(movieId: Int!): Int!
+  unlikeTvShow(tvShowId: Int!): Int!
 }
 
 type Query {
