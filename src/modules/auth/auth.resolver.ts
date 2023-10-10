@@ -5,6 +5,7 @@ import { LoginUserInput } from './inputs/login-input';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from './guards/gql-auth.guard';
 import { User } from '../../models/user.model';
+import { CreateUserInput } from '../user/inputs/create-user.input';
 
 @Resolver()
 export class AuthResolver {
@@ -23,7 +24,7 @@ export class AuthResolver {
 
   @Mutation(() => User)
   async signUp (
-    @Args('createUserInput') createUserInput: LoginUserInput
+    @Args('createUserInput') createUserInput: CreateUserInput
   ): Promise<User> {
     return await this.authService.signUp(createUserInput);
   }

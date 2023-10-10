@@ -10,6 +10,13 @@ type Cast {
   profilePath: String
 }
 
+input CreateUserInput {
+  confirmPassword: String!
+  password: String!
+  role: UserRole!
+  username: String!
+}
+
 type Credit {
   cast: [Cast!]!
   crew: [Crew!]!
@@ -55,7 +62,7 @@ type Mutation {
   likeMovie(movieId: Int!): Movie!
   likeTvShow(tvShowId: Int!): TvShow!
   login(loginUserInput: LoginUserInput!): LoginResponse!
-  signUp(createUserInput: LoginUserInput!): User!
+  signUp(createUserInput: CreateUserInput!): User!
   unlikeMovie(movieId: Int!): Int!
   unlikeTvShow(tvShowId: Int!): Int!
 }
@@ -94,5 +101,15 @@ type TvShowsList {
 
 type User {
   id: Int!
+  role: UserRole!
   username: String!
+}
+
+"""All user roles"""
+enum UserRole {
+  """User with all permission"""
+  FULL_ACCESS
+
+  """User can only read"""
+  READ
 }

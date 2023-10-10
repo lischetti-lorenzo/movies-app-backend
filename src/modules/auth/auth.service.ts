@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcryptjs';
 import { User, UserWithoutPassword } from '../../models/user.model';
 import { LoginResponse } from './dtos/login-response';
 import { JwtService } from '@nestjs/jwt';
-import { LoginUserInput } from './inputs/login-input';
+import { CreateUserInput } from '../user/inputs/create-user.input';
 
 @Injectable()
 export class AuthService {
@@ -42,10 +42,11 @@ export class AuthService {
     };
   }
 
-  async signUp (loginUserInput: LoginUserInput): Promise<User> {
+  async signUp (createUserInput: CreateUserInput): Promise<User> {
+    const { username, password, confirmPassword, role } = createUserInput;
     const user = await this.userService.findOne({
       where: {
-        username: loginUserInput.username
+        username
       }
     });
 
@@ -53,11 +54,16 @@ export class AuthService {
       throw new Error('User already exists');
     }
 
-    const password = await bcrypt.hash(loginUserInput.password, 10);
+    if (password !== confirmPassword) {
+      throw new BadRequestException('Passwords must match');
+    }
+
+    const hash = await bcrypt.hash(createUserInput.password, 10);
 
     return await this.userService.create({
-      username: loginUserInput.username,
-      password
+      username,
+      password: hash,
+      role
     });
   }
 }

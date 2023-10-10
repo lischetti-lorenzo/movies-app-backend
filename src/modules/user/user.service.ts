@@ -13,7 +13,7 @@ export class UserService {
     private readonly prisma: PrismaService
   ) {}
 
-  async create (data: CreateUserInput): Promise<User> {
+  async create (data: Omit<CreateUserInput, 'confirmPassword'>): Promise<User> {
     const user = await this.prisma.user.create({
       data: {
         ...data,
