@@ -9,6 +9,7 @@ import { CurrentUser } from '../auth/decorators/auth.decorator';
 import { User } from '../../models/user.model';
 import { UserFavoriteService } from '../user-favorite/user-favorite.service';
 import { PaginationArgs } from '../../shared/args/pagination.args';
+import { Roles } from '../auth/decorators/roles.decorator';
 
 @Resolver(() => Movie)
 @UseGuards(JwtAuthGuard)
@@ -42,6 +43,7 @@ export class MovieResolver {
     return movie;
   }
 
+  @Roles(['FULL_ACCESS'])
   @Query(() => [Movie], { name: 'favoriteMovies' })
   async getFavoriteMovies (
     @CurrentUser() user: User,
@@ -50,6 +52,7 @@ export class MovieResolver {
     return await this.movieService.getFavoritesMovies(user.id, pagination.take, pagination.skip);
   }
 
+  @Roles(['FULL_ACCESS'])
   @Query(() => Int, { name: 'totalFavoriteMovies' })
   async getTotalFavoriteMovies (
     @CurrentUser() user: User
@@ -57,6 +60,7 @@ export class MovieResolver {
     return await this.movieService.getTotalFavoritesMovies(user.id);
   }
 
+  @Roles(['FULL_ACCESS'])
   @Mutation(() => Movie)
   async likeMovie (
     @CurrentUser() user: User,
@@ -73,6 +77,7 @@ export class MovieResolver {
     return result as Movie;
   }
 
+  @Roles(['FULL_ACCESS'])
   @Mutation(() => Int)
   async unlikeMovie (
     @CurrentUser() user: User,

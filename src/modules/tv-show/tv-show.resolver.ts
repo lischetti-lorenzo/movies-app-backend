@@ -9,6 +9,7 @@ import { CurrentUser } from '../auth/decorators/auth.decorator';
 import { User } from '@prisma/client';
 import { UserFavoriteService } from '../user-favorite/user-favorite.service';
 import { PaginationArgs } from '../../shared/args/pagination.args';
+import { Roles } from '../auth/decorators/roles.decorator';
 
 @Resolver(() => TvShow)
 @UseGuards(JwtAuthGuard)
@@ -42,6 +43,7 @@ export class TvShowResolver {
     return tvShow;
   }
 
+  @Roles(['FULL_ACCESS'])
   @Query(() => [TvShow], { name: 'favoriteTvShows' })
   async getFavoriteTvShows (
     @CurrentUser() user: User,
@@ -50,6 +52,7 @@ export class TvShowResolver {
     return await this.tvShowService.getFavoritesTvShows(user.id, pagination.take, pagination.skip);
   }
 
+  @Roles(['FULL_ACCESS'])
   @Query(() => Int, { name: 'totalFavoriteTvShows' })
   async getTotalFavoriteTvShows (
     @CurrentUser() user: User
@@ -57,6 +60,7 @@ export class TvShowResolver {
     return await this.tvShowService.getTotalFavoritesTvShows(user.id);
   }
 
+  @Roles(['FULL_ACCESS'])
   @Mutation(() => TvShow)
   async likeTvShow (
     @CurrentUser() user: User,
@@ -73,6 +77,7 @@ export class TvShowResolver {
     return result as TvShow;
   }
 
+  @Roles(['FULL_ACCESS'])
   @Mutation(() => Int)
   async unlikeTvShow (
     @CurrentUser() user: User,
