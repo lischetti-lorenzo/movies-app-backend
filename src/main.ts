@@ -9,7 +9,7 @@ async function bootstrap (): Promise<void> {
     origin: appConfigService.origin,
     credentials: true
   });
-  await app.listen(appConfigService.applicationPort);
+  await app.listen(appConfigService.applicationPort, '0.0.0.0');
 }
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 bootstrap();

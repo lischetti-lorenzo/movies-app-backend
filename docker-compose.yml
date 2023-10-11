@@ -18,9 +18,9 @@ services:
       dockerfile: Dockerfile
     container_name: movies-graphql-api
     environment:
-      - NODE_PORT=${NODE_PORT}
+      - PORT=${PORT}
     ports:
-      - '${NODE_PORT}:${NODE_PORT}'
+      - '${PORT}:${PORT}'
     env_file: .env
     restart: always
     depends_on:

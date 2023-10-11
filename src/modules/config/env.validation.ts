@@ -4,7 +4,7 @@ import { IsNotEmpty, IsNumber, IsString, validateSync } from 'class-validator';
 export class EnvironmentVariables {
   @IsNumber()
   @IsNotEmpty()
-    NODE_PORT: number;
+    PORT: number;
 
   @IsString()
   @IsNotEmpty()

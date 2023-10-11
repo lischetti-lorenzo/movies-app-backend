@@ -6,7 +6,7 @@ export class ApplicationConfigService {
   constructor (private readonly configService: ConfigService) {}
 
   get applicationPort (): number {
-    return this.configService.get('NODE_PORT') as number;
+    return this.configService.get('PORT') as number;
   }
 
   get tmdbApiUrl (): string {
