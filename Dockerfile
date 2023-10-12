@@ -1,13 +1,14 @@
 FROM node:18
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 COPY package*.json ./
 COPY prisma ./prisma/
 
 RUN npm install
 
-COPY . .
+COPY tsconfig.json ./
+COPY ./src ./src
 
 RUN npx prisma generate
 RUN npm run build
