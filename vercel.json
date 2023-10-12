@@ -10,7 +10,7 @@
   "rewrites": [{ "source": "/(.*)", "destination": "src/main.ts" }],
   "headers": [
     {
-      "source": "https://studio.apollographql.com/(.*)",
+      "source": "studio.apollographql.com/(.*)",
       "headers": [{ "key": "Access-Control-Allow-Origin", "value": "*"}]
     },
     {
