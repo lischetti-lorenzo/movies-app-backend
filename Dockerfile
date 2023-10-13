@@ -18,13 +18,13 @@ FROM development as builder
 WORKDIR /usr/src/app
 
 COPY prisma ./prisma/
+COPY .env .env
 
 RUN npx prisma generate
 
-RUN if [ "$NODE_ENV" = "debug" ]; then \
-  npx prisma migrate dev; \
-else \
-  npx prisma migrate deploy; \
-fi
-
 RUN npm run build
+
+COPY ./docker-entrypoint.sh .
+
+EXPOSE ${NODE_PORT}
+ENTRYPOINT ["bash", "docker-entrypoint.sh"]
