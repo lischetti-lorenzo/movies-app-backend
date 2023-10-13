@@ -1,16 +1,30 @@
-FROM node:18
+# Development stage
+FROM node:18 as development
 
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-COPY prisma ./prisma/
 
 RUN npm install
 
 COPY tsconfig.json ./
 COPY ./src ./src
 
-RUN npx prisma generate
-RUN npm run build
+CMD ["npm", "run", "start:dev" ]
 
-CMD ["npm", "run", "start:migrate:dev" ]
+# Builder stage
+FROM development as builder
+
+WORKDIR /usr/src/app
+
+COPY prisma ./prisma/
+
+RUN npx prisma generate
+
+RUN if [ "$NODE_ENV" = "debug" ]; then \
+  npx prisma migrate dev; \
+else \
+  npx prisma migrate deploy; \
+fi
+
+RUN npm run build

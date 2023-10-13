@@ -45,6 +45,10 @@ export class EnvironmentVariables {
   @IsString()
   @IsNotEmpty()
     FRONTEND_URL: string;
+
+  @IsString()
+  @IsNotEmpty()
+    NODE_ENV: string;
 }
 
 export function validate (
