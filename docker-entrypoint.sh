@@ -9,11 +9,9 @@ NC='\033[0m'
 if [ "$NODE_ENV" = "debug" ]; then
   echo "${GREEN}Running migrations for local.${NC}"
   npx prisma migrate dev
-elif [ "$ECS_ENV" = "true" ]; then
+else
   echo "${GREEN}Running migrations for cloud.${NC}"
   npx prisma migrate deploy
-else
-  echo "${GREEN}Skipping migrations${NC}"
 fi;
 
 exec "$@"
