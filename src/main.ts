@@ -7,7 +7,9 @@ async function bootstrap (): Promise<void> {
   const appConfigService = app.get<ApplicationConfigService>(ApplicationConfigService);
   app.enableCors({
     origin: appConfigService.origin,
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization']
   });
   await app.listen(appConfigService.applicationPort, '0.0.0.0');
 }
