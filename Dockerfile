@@ -1,5 +1,5 @@
 # Development stage
-FROM node:18-alpine3.16 as development
+FROM node:18 as development
 
 WORKDIR /usr/src/app
 
@@ -27,8 +27,7 @@ RUN rm -rf node_modules
 RUN npm ci --only=production
 
 # Production stage
-FROM node:18-alpine3.16 as production
-RUN apk --no-cache add nodejs ca-certificates
+FROM node:18 as production
 WORKDIR /root/
 COPY --from=builder /usr/src/app ./
 
