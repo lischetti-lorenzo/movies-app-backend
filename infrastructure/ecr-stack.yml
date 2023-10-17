@@ -1,0 +1,34 @@
+Description: Cloudformation template to create an ECR repository.
+
+Parameters:
+  Username:
+    Description: Username of the user that will pull and push from this repository
+    Type: String
+
+Resources:
+  RatherLabsMoviesRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: "moviesratherlabs-node-app"
+      RepositoryPolicyText:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowPullPush
+            Effect: Allow
+            Principal:
+              AWS:
+                - !Sub "arn:aws:iam::${AWS::AccountId}:user/${Username}"
+            Action:
+              - "ecr:Get*"
+              - "ecr:Describe*"
+              - "ecr:BatchGetImage"
+              - "ecr:BatchCheckLayerAvailability"
+              - "ecr:CompleteLayerUpload"
+              - "ecr:GetDownloadUrlForLayer"
+              - "ecr:InitiateLayerUpload"
+              - "ecr:PutImage"
+              - "ecr:UploadLayerPart"
+
+Outputs:
+  SampleAppRepository:
+    Value: !GetAtt RatherLabsMoviesRepository.Arn
